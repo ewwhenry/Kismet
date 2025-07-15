@@ -1,0 +1,42 @@
+{
+  "name": "@repo/db",
+  "type": "module",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc"
+  },
+  "exports": {
+    ".": {
+      "default": "./dist/index.js",
+      "types": "./src/index.ts"
+    },
+    "./comment": {
+      "default": "./dist/comment.js",
+      "types": "./src/comment.ts"
+    },
+    "./like": {
+      "default": "./dist/like.js",
+      "types": "./src/like.ts"
+    },
+    "./match": {
+      "default": "./dist/match.js",
+      "types": "./src/match.ts"
+    },
+    "./notification": {
+      "default": "./dist/notification.js",
+      "types": "./src/notification.ts"
+    },
+    "./user": {
+      "default": "./dist/user.js",
+      "types": "./src/user.ts"
+    },
+    "./post": {
+      "default": "./dist/post.js",
+      "types": "./src/post.ts"
+    }
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "typescript": "latest"
+  }
+}

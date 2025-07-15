@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String   @id @default(cuid())
+  username       String   @unique
+  email          String   @unique
+  password       String
+  name           String?
+  bio            String?
+  profilePicture String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  posts    Post[]
+  likes    Like[]
+  comments Comment[]
+
+  // Relación donde el usuario es el dueño de la notificación
+  notifications Notification[] @relation("ToUser")
+
+  // Relación donde el usuario es el origen de la notificación
+  sentNotifications Notification[] @relation("FromUser")
+
+  // Followers/Following relationship
+  followers User[] @relation("UserFollows")
+  following User[] @relation("UserFollows")
+
+  // Match relationships
+  matches1 Match[] @relation("User1")
+  matches2 Match[] @relation("User2")
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  content   String
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  likes        Like[]
+  comments     Comment[]
+  Notification Notification[]
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  text      String
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Match {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  user1Id String
+  user1   User   @relation("User1", fields: [user1Id], references: [id], onDelete: Cascade)
+
+  user2Id String
+  user2   User   @relation("User2", fields: [user2Id], references: [id], onDelete: Cascade)
+
+  @@unique([user1Id, user2Id])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  type      NotificationType
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  userId String
+  user   User   @relation("ToUser", fields: [userId], references: [id], onDelete: Cascade)
+
+  fromUserId String?
+  fromUser   User?   @relation("FromUser", fields: [fromUserId], references: [id], onDelete: SetNull)
+
+  postId String?
+  post   Post?   @relation(fields: [postId], references: [id], onDelete: SetNull)
+}
+
+enum NotificationType {
+  LIKE
+  COMMENT
+  FOLLOW
+  MATCH
+}
