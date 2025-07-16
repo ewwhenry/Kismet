@@ -1,6 +1,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-geist-sans: 'GeistSans', sans-serif;
+  --font-geist-mono: 'GeistMono', monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,6 +21,8 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
+
+  font-family: var(--font-geist-sans);
 }
 
 * {
@@ -32,19 +36,8 @@ a {
   text-decoration: none;
 }
 
-.imgDark {
-  display: none;
-}
-
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
-  }
-
-  .imgLight {
-    display: none;
-  }
-  .imgDark {
-    display: unset;
   }
 }

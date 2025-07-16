@@ -1,23 +1,17 @@
-import { RequestHandler } from "express";
-import { examplePosts as posts } from "../constants/mocks.js";
-import { createPaginatedResponse } from "../utils/responses.js";
+import { RequestHandler } from 'express';
+import { createCursorPaginatedResponse } from '../utils/responses.js';
+import { prisma } from '@repo/db';
 
-export const getPosts: RequestHandler = (req, res) => {
-  const page = parseInt(req.query.page as string) || 1;
-  const pageSize = parseInt(req.query.pageSize as string) || 5;
+export const getPosts: RequestHandler = async (req, res) => {
+  const { cursor, limit = 10 } = req.query;
+  const take = Number(limit) + 1;
 
-  const totalItems = posts.length;
-  const start = (page - 1) * pageSize;
-  const end = start + pageSize;
-  const paginatedItems = posts.slice(start, end);
+  const posts = await prisma.post.findMany({
+    take,
+    orderBy: { createdAt: 'desc' },
+    cursor: cursor ? { id: cursor as string } : undefined,
+    skip: cursor ? 1 : 0,
+  });
 
-  return res.json(
-    createPaginatedResponse(
-      paginatedItems,
-      totalItems,
-      page,
-      pageSize,
-      "Posts retrieved successfully"
-    )
-  );
+  return res.json(createCursorPaginatedResponse(posts, Number(limit)));
 };
