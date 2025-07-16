@@ -1,6 +1,7 @@
 {
   "name": "Kismet: Meet new people.",
   "short_name": "Kismet",
+  "description": "Discover and connect with new people around you in a fun and intuitive way.",
   "icons": [
     {
       "src": "/icons/icon.png",
@@ -14,7 +15,8 @@
     }
   ],
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#ffffff",
-  "theme_color": "#000000"
+  "theme_color": "#000000",
+  "orientation": "portrait"
 }
