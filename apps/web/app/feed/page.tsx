@@ -1,0 +1,43 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import type { APIPaginatedResponse, Post as PostType } from '@repo/types';
+import { Post } from '../../components/Post';
+import { Bell } from 'lucide-react';
+
+import { API } from '../config';
+import { Navbar } from '@/components/Navbar';
+
+async function getPosts(): Promise<PostType[]> {
+  let data: APIPaginatedResponse<PostType[]> = (
+    await axios({
+      baseURL: API,
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZDVjNjh4NjAwMDBzYnV3NXJ3MmprYzQiLCJpYXQiOjE3NTI2Mzk4MDYsImV4cCI6MTc1NTIzMTgwNn0.MzzrtVm5_3DKj7sNEs8iceFJ0rbOWFeu8xvxDjKeBXU`,
+      },
+      url: '/posts',
+      method: 'GET',
+    })
+  ).data;
+
+  return data.data;
+}
+
+export default function Home() {
+  let [posts, setPosts] = useState<PostType[]>([]);
+
+  useEffect(() => {
+    getPosts().then((APIPosts) => setPosts(APIPosts));
+  }, []);
+
+  return (
+    <div className="flex flex-col w-full md:w-2xl md:mx-auto md:gap-2 md:mt-10">
+      <div className="pt-6 bg-zinc-100 dark:bg-zinc-900">
+        {posts.map((post) => (
+          <Post key={post.id} post={post} />
+        ))}
+      </div>
+    </div>
+  );
+}

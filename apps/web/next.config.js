@@ -7,4 +7,6 @@ const withPWA = WithPWA({
   skipWaiting: true,
 });
 
-export default withPWA({});
+export default withPWA({
+  devIndicators: false,
+});
