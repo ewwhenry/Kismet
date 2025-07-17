@@ -12,6 +12,12 @@ app.use(
   }),
 );
 app.use(morgan('dev'));
+app.use(Express.json());
+app.use(
+  Express.urlencoded({
+    extended: true,
+  }),
+);
 
 // This handles all our routes.
 app.use('/', root);

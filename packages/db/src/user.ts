@@ -1,4 +1,4 @@
-import { prisma } from "./index.js";
+import { prisma } from './index.js';
 
 export const createUser = async (data: {
   username: string;
@@ -18,13 +18,17 @@ export const getUserByUsername = async (username: string) => {
   return await prisma.user.findUnique({ where: { username } });
 };
 
+export const getUserByEmail = async (email: string) => {
+  return await prisma.user.findUnique({ where: { email } });
+};
+
 export const updateUser = async (
   id: string,
   data: {
     name?: string;
     bio?: string;
     profilePicture?: string;
-  }
+  },
 ) => {
   return await prisma.user.update({
     where: { id },

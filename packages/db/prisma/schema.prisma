@@ -41,15 +41,16 @@ model User {
 model Post {
   id        String   @id @default(cuid())
   content   String
-  imageUrl  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   authorId String
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
-  likes        Like[]
-  comments     Comment[]
+  likes    Like[]
+  media    Media[]
+  comments Comment[]
+
   Notification Notification[]
 }
 
@@ -105,6 +106,19 @@ model Notification {
 
   postId String?
   post   Post?   @relation(fields: [postId], references: [id], onDelete: SetNull)
+}
+
+// type is suposed to be the mimetype
+model Media {
+  id          String   @unique @default(uuid())
+  type        String
+  url         String
+  deleteHash  String
+  description String?
+  createdAt   DateTime @default(now())
+
+  postId String
+  post   Post   @relation(fields: [postId], references: [id])
 }
 
 enum NotificationType {

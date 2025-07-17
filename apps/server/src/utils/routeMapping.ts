@@ -3,6 +3,7 @@ import { IRoute, Router } from 'express';
 export default function routeMapping(path: string, router: Router) {
   return router.stack
     .map(({ route }) => {
+      if (!route) return;
       return Object.entries(
         (route as IRoute & { methods: Record<string, boolean> })!.methods,
       )
@@ -12,5 +13,6 @@ export default function routeMapping(path: string, router: Router) {
           method: method.toUpperCase(),
         }));
     })
-    .flat();
+    .flat()
+    .filter(Boolean);
 }
