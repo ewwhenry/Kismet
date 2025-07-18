@@ -41,7 +41,8 @@ export const getPosts: RequestHandler = async (req, res) => {
 };
 
 export const createPost: RequestHandler = async (req, res) => {
-  const { content, authorId } = req.body;
+  const authorId = (req as any).user.id;
+  const { content } = req.body;
   const media = req.files as Express.Multer.File[];
 
   let postBody: PostCreateInput = {
