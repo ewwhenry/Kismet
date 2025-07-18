@@ -14,7 +14,7 @@ async function getPosts(): Promise<PostType[]> {
     await axios({
       baseURL: API,
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZDVjNjh4NjAwMDBzYnV3NXJ3MmprYzQiLCJpYXQiOjE3NTI2Mzk4MDYsImV4cCI6MTc1NTIzMTgwNn0.MzzrtVm5_3DKj7sNEs8iceFJ0rbOWFeu8xvxDjKeBXU`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZDgydG9neDAwMDJxaGI0eWhobGN1ZGMiLCJpYXQiOjE3NTI3OTk0MjYsImV4cCI6MTc1NTM5MTQyNn0.HyVsrdczHFuNnAWXBuedY68I1Ly7qtSr4xXnmvq_mEc`,
       },
       url: '/posts',
       method: 'GET',
