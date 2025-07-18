@@ -35,7 +35,7 @@ export default function LoginPage() {
 
       localStorage.setItem('access_token', data.data.access_token);
 
-      location.href = '/feed';
+      location.href = '/app';
     });
   };
 

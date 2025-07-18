@@ -52,6 +52,9 @@ model Post {
   comments Comment[]
 
   Notification Notification[]
+
+  @@unique([createdAt, id]) // obligatorio para cursor compuesto
+  @@index([createdAt, id], name: "createdAt_id") // opcional para rendimiento
 }
 
 model Like {
@@ -118,7 +121,7 @@ model Media {
   createdAt   DateTime @default(now())
 
   postId String
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 enum NotificationType {

@@ -200,14 +200,18 @@ export async function uploadImages(
   }
 }
 
-async function deleteImage(deleteHash: string) {
+export async function deleteImage(deleteHash: string) {
   let res = await axios.delete(`https://api.imgur.com/3/image/${deleteHash}`, {
     headers: {
       Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
     },
   });
 
-  return res.data;
+  return res.data as {
+    data: boolean;
+    success: boolean;
+    status: number;
+  };
 }
 
 export { type UploadOptions, type ImgurImageData, type FinalResult };
